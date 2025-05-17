@@ -1,0 +1,16 @@
+# Ignore backend env
+/backend/.env
+
+# Ignore frontend env
+/frontend/.env
+
+# Node modules for both
+/backend/node_modules/
+/frontend/node_modules/
+
+# Other common ignores
+.DS_Store
+logs/
+*.log
+dist/
+build/
