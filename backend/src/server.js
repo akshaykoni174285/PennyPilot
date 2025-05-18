@@ -6,6 +6,7 @@ import morgan from 'morgan';
 // custom imports
 import connectDB from './config/db.js';
 import authRoutes from './routes/authRoutes.js';
+import transactionRoutes from './routes/transactionRoutes.js';
 
 dotenv.config();
 const app = express();
@@ -26,6 +27,8 @@ app.get('/', (req,res) =>{
 })
 
 app.use('/api/auth',authRoutes)
+
+app.use('/api/transactions', transactionRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

@@ -7,11 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 dotenv.config();
 const userSchema  = new mongoose.Schema({
-     userId: {
-        type: String,
-        default: uuidv4,
-        unique: true,
-    },
+
     name: {
         type: String,
         required: true,
@@ -58,7 +54,10 @@ userSchema.statics.findByCredentials = async (email, password) => {
     if (!user) {
         throw new Error('Unable to login');
     }
+    console.log(password);
+    console.log(user.password);
     const ismatched = await bcrypt.compare(password, user.password);
+    console.log(ismatched);
     if (!ismatched) {
         throw new Error('Unable to login');
     }
