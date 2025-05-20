@@ -1,7 +1,5 @@
-import User from '../models/User.js';
 import Transaction from '../models/Transactions.js';
 import moment from 'moment';
-import mongoose from 'mongoose';
 
 /*
     @desc Add a new transaction
@@ -71,7 +69,7 @@ export const getTransactions = async (req,res) => {
 export const getCategoryBreakdown = async (req, res) => {
     try{
     const {type, frequency, startDate, endDate} = req.query;
-    console.log(req.user._id)
+    // console.log(req.user._id)
     const matchState = {
         userId: req.user._id,
         type: type,
@@ -118,4 +116,78 @@ export const getCategoryBreakdown = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 
+}
+
+/*
+    @desc Delete a transaction
+    @route DELETE /api/transactions/:id
+    @access Private
+
+*/
+
+export const deleteTransaction = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const transaction = await Transaction.findById(id);
+        if (!transaction) {
+            return res.status(404).json({ message: 'Transaction not found' });
+        }
+        await Transaction.findByIdAndDelete(id);
+        return res.status(200).json({ message: 'Transaction deleted successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+}
+
+/*
+    @desc Update a transaction
+    @route PUT /api/transactions/:id
+    @access Private
+*/
+
+export const updateTransaction = async (req, res) => {
+    try {
+        const {id} = req.params;
+        const { type, category, amount, description, date } = req.body;
+        const transaction = await Transaction.findById(id);
+        if(!transaction){
+            return res.status(404).json({ message: 'Transaction not found' });
+        }
+        const updatedTransaction = await Transaction.findByIdAndUpdate(id, {
+            type,
+            category,
+            amount,
+            description,
+            date,
+        }, { new: true, runValidators: true });
+        return res.status(200).json({ message: 'Transaction updated successfully', transaction: updatedTransaction });
+        
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+}
+
+
+/*
+    @desc Get a transaction by id
+    @route GET /api/transactions/:id
+    @access Private
+*/
+
+export const getTransactionById = async (req, res) => {
+    try {
+        const {id} = req.params;
+        const transaction = await Transaction.findById(id);
+        if(!transaction){
+            return res.status(404).json({ message: 'Transaction not found' });
+        }
+        return res.status(200).json(transaction);
+        
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+        
+    }
 }
