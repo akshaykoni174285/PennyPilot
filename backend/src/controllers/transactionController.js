@@ -16,6 +16,12 @@ export const addTransaction = async (req, res) => {
         description: req.body.description,
         date: req.body.date || new Date(),  
         };
+        const existingTransaction = await Transaction.find({userId})
+
+        if(existingTransaction.length ===0 && type !== 'income'){
+
+            return res.status(400).json({ message: 'You need to add an income transaction first' });
+        }
         const transaction = new Transaction(transactionData);
         await transaction.save();
         return res.status(201).json({ message: 'Transaction added successfully', transaction });

@@ -1,8 +1,8 @@
 # Ignore backend env
-/backend/.env
+/backend/.env*
 
 # Ignore frontend env
-/frontend/.env
+/frontend/.env*
 
 # Node modules for both
 /backend/node_modules/
