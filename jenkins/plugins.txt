@@ -1,5 +1,10 @@
-git
-blueocean
 workflow-aggregator
+git
 docker-plugin
+blueocean
+credentials-binding
+ssh-slaves
 matrix-auth
+pipeline-stage-view
+pipeline-utility-steps
+email-ext
